@@ -1,0 +1,9 @@
+google-adk>=2.8.0
+mcp<2                # MCP python SDK (ADK MCP support requires < 2.x)
+python-dotenv>=1.2.2
+pydantic>=2.12
+httpx>=0.28
+requests>=2.32
+google-genai>=2.19
+playwright>=1.50
+PyYAML>=6.0

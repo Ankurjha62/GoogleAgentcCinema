@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual env
+venv/
+.venv/
+
+# Secrets - never commit
+.env
+
+# Grafana service account tokens
+*.service-account-token
+*token.json
+credentials.json
+
+# Generated outputs
+tests_generated/
+reports/
+storage/
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+.adk/

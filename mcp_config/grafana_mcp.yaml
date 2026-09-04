@@ -1,0 +1,45 @@
+# Grafana MCP server connection configuration for TestMind.
+#
+# The OSS Grafana MCP server (grafana/mcp-grafana) runs as a stdio process and
+# authenticates to your Grafana instance with a service-account token. This is
+# the headless-friendly path: no interactive browser OAuth, suitable for the
+# "email arrives -> pipeline runs automatically" story.
+#
+# Server                  : https://github.com/grafana/mcp-grafana
+# Auth to Grafana         : GRAFANA_URL + GRAFANA_SERVICE_ACCOUNT_TOKEN
+# Transport (ADK 2.x)     : McpToolset + StdioConnectionParams
+
+grafana:
+  # The OSS mcp-grafana package. Use "uv" runner so the binary is fetched on
+  # demand and stays up to date:  uv tool run mcp-grafana  or via npx.
+  # Prefer Docker for reproducible demos:
+  #   docker run -e GRAFANA_URL=... -e GRAFANA_SERVICE_ACCOUNT_TOKEN=... grafana/mcp-grafana
+  runner: "uv"
+  command: ["uv", "tool", "run", "mcp-grafana"]
+
+  # Docker alternative (set "runner: docker"):
+  # command: ["docker", "run", "--rm", "-i", "grafana/mcp-grafana"]
+
+  # Tools we expect to call (from manual exploration of the ~60 tools):
+  #   metrics_service_query_range   (PromQL)
+  #   datasource_uid_lookup
+  #   logs_service_query_range      (LogQL)
+  #   metrics_service_get_label_values
+  #   dashboard_annotations_create
+  #   dashboard_search_dashboards
+  #   alertmanager_v1_list_alerts
+  #   incident_create
+  #   tempo_service_search_traces
+
+  # Filter to the tools the agents actually use to keep the agent context tight.
+  tool_filters:
+    - "metrics_service_query_range"
+    - "metrics_service_get_label_values"
+    - "logs_service_query_range"
+    - "dashboard_annotations_create"
+    - "dashboard_search_dashboards"
+    - "alertmanager_v1_list_alerts"
+    - "incident_create"
+    - "tempo_service_search_traces"
+    - "datasource_uid_lookup"
+    - "resources_service_list"
